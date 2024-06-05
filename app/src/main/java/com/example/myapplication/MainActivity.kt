@@ -23,7 +23,6 @@ class MainActivity : ComponentActivity() {
             MyApplicationTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     IMCCount(
-                        name = "Android",
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -33,11 +32,18 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun IMCCount(name: String, modifier: Modifier = Modifier) {
+fun IMCCount(modifier: Modifier = Modifier) {
+
     Column {
-        Text(text = "Lets Get FIT!")
+        Text(modifier = Modifier,
+            text = "IMC Calculator")
 
         Card {
+            Text(
+                modifier = Modifier,
+                text = "Insert Values!"
+            )
+
 
         }
 
@@ -48,6 +54,6 @@ fun IMCCount(name: String, modifier: Modifier = Modifier) {
 @Composable
 fun IMCCountPreview() {
     MyApplicationTheme {
-        IMCCount("Android")
+        IMCCount()
     }
 }
