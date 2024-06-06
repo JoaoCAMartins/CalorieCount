@@ -65,19 +65,7 @@ fun IMCCountLayout() {
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
         )
-        EditNumberField(
-            label =R.string.age,
-            leadingIcon = R.drawable.age,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Next
-            ),
-            value = "",
-            onValueChanged = { },
-            modifier = Modifier
-                .padding(bottom = 32.dp)
-                .fillMaxWidth(),
-        )
+
         EditNumberField(
             label = R.string.height,
             leadingIcon = R.drawable.height,
@@ -106,7 +94,7 @@ fun IMCCountLayout() {
         )
 
         Text(
-            text = stringResource(R.string.calories_for_a_day),
+            text = stringResource(R.string.imc),
             style = MaterialTheme.typography.displaySmall
         )
         Text(
