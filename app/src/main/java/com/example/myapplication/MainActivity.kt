@@ -16,12 +16,17 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -50,6 +55,15 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun IMCCountLayout() {
+    var heightInput by remember {
+        mutableStateOf("")
+    }
+    var weightInput by remember {
+        mutableStateOf("")
+    }
+    val height = heightInput.toIntOrNull() ?: 0
+    val weight = weightInput.toDoubleOrNull() ?: 0.0
+    val CaclIMC = CalcIMC(height,weight)
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -66,6 +80,7 @@ fun IMCCountLayout() {
                 .align(alignment = Alignment.Start)
         )
 
+
         EditNumberField(
             label = R.string.height,
             leadingIcon = R.drawable.height,
@@ -73,8 +88,8 @@ fun IMCCountLayout() {
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             ),
-            value = "",
-            onValueChanged = {  },
+            value = heightInput,
+            onValueChanged = { heightInput = it},
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
@@ -86,8 +101,8 @@ fun IMCCountLayout() {
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             ),
-            value = "",
-            onValueChanged = {  },
+            value = weightInput,
+            onValueChanged = { weightInput = it },
             modifier = Modifier
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
@@ -98,13 +113,22 @@ fun IMCCountLayout() {
             style = MaterialTheme.typography.displaySmall
         )
         Text(
-            text = "0",
+            text = CaclIMC,
             style = MaterialTheme.typography.displaySmall
         )
 
 
     }
 }
+
+fun CalcIMC(height: Int = 0, weight: Double = 0.0): String{
+    height.toDouble()
+    val heightCorr = height/100
+    val IMC = weight/(heightCorr*heightCorr)
+    return java.text.NumberFormat.getNumberInstance().format(IMC)
+
+}
+
 @Composable
 fun EditNumberField(
     @StringRes label: Int,
