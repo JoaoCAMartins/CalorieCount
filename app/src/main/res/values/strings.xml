@@ -2,5 +2,7 @@
     <string name="app_name">My Application</string>
     <string name="age">AGE</string>
     <string name="imc_calculator">IMC Calculator</string>
-    <string name="high">High</string>
+    <string name="height">Height</string>
+    <string name="Weight">Weight</string>
+    <string name="calories_for_a_day">Calories for a day:</string>
 </resources>
