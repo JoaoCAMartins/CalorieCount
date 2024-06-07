@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -63,7 +62,8 @@ fun IMCCountLayout() {
     }
     val height = heightInput.toDoubleOrNull() ?: 0.0
     val weight = weightInput.toDoubleOrNull() ?: 0.0
-    val CaclIMC = CalcIMC(height,weight)
+    val IMC = CalcIMC(height,weight)
+    val IMCInfo = IMCInformation(IMC)
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -113,12 +113,27 @@ fun IMCCountLayout() {
             style = MaterialTheme.typography.displaySmall
         )
         Text(
-            text = CaclIMC,
+            text = IMC + " Kg/m^2",
+            style = MaterialTheme.typography.displaySmall
+        )
+        Text(
+            text = IMCInfo,
             style = MaterialTheme.typography.displaySmall
         )
 
 
     }
+}
+
+fun IMCInformation(imc: String): String {
+    val IMC = imc.toDouble()
+    when(IMC){
+        in 0.0..< 18.5 -> return "Abaixo do Peso"
+        in 18.5..<24.9 ->  return "Peso Normal"
+        in 24.9..<29.9 ->return "Exesso de Peso"
+        else -> return "Obesidade"
+    }
+
 }
 
 fun CalcIMC(height: Double = 0.0, weight: Double = 0.0): String{
@@ -127,6 +142,9 @@ fun CalcIMC(height: Double = 0.0, weight: Double = 0.0): String{
     return java.text.NumberFormat.getNumberInstance().format(IMC)
 
 }
+
+
+
 
 @Composable
 fun EditNumberField(
