@@ -136,7 +136,7 @@ fun IMCInformation(imc: String): String {
 
 }
 
-fun CalcIMC(height: Double = 0.0, weight: Double = 0.0): String{
+fun CalcIMC(height: Double = 0.0, weight: Double = 0.0): String {
     val heightCorr = height/100
     val IMC = weight/(heightCorr*heightCorr)
     return java.text.NumberFormat.getNumberInstance().format(IMC)
