@@ -61,7 +61,7 @@ fun IMCCountLayout() {
     var weightInput by remember {
         mutableStateOf("")
     }
-    val height = heightInput.toIntOrNull() ?: 0
+    val height = heightInput.toDoubleOrNull() ?: 0.0
     val weight = weightInput.toDoubleOrNull() ?: 0.0
     val CaclIMC = CalcIMC(height,weight)
     Column(
@@ -121,8 +121,7 @@ fun IMCCountLayout() {
     }
 }
 
-fun CalcIMC(height: Int = 0, weight: Double = 0.0): String{
-    height.toDouble()
+fun CalcIMC(height: Double = 0.0, weight: Double = 0.0): String{
     val heightCorr = height/100
     val IMC = weight/(heightCorr*heightCorr)
     return java.text.NumberFormat.getNumberInstance().format(IMC)
