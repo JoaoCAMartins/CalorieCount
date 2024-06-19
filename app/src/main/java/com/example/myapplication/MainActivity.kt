@@ -62,8 +62,8 @@ fun IMCCountLayout() {
     }
     val height = heightInput.toDoubleOrNull() ?: 0.0
     val weight = weightInput.toDoubleOrNull() ?: 0.0
-    val IMC = CalcIMC(height,weight)
-    val IMCInfo = IMCInformation(IMC)
+    val imc = calcIMC(height,weight)
+    val imcInfo = imcInformation(imc)
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -113,11 +113,11 @@ fun IMCCountLayout() {
             style = MaterialTheme.typography.displaySmall
         )
         Text(
-            text = IMC + " Kg/m^2",
+            text = "$imc Kg/m^2",
             style = MaterialTheme.typography.displaySmall
         )
         Text(
-            text = IMCInfo,
+            text = imcInfo,
             style = MaterialTheme.typography.displaySmall
         )
 
@@ -125,21 +125,21 @@ fun IMCCountLayout() {
     }
 }
 
-fun IMCInformation(imc: String): String {
-    val IMC = imc.toDouble()
-    when(IMC){
-        in 0.0..< 18.5 -> return "Abaixo do Peso"
-        in 18.5..<24.9 ->  return "Peso Normal"
-        in 24.9..<29.9 ->return "Exesso de Peso"
-        else -> return "Obesidade"
+fun imcInformation(imc: String): String {
+    val imcNumber = imc.toDouble()
+    return when(imcNumber){
+        in 0.0..< 18.5 -> "Abaixo do Peso"
+        in 18.5..<24.9 -> "Peso Normal"
+        in 24.9..<29.9 -> "Exesso de Peso"
+        else -> "Obesidade"
     }
 
 }
 
-fun CalcIMC(height: Double = 0.0, weight: Double = 0.0): String {
+fun calcIMC(height: Double = 0.0, weight: Double = 0.0): String {
     val heightCorr = height/100
-    val IMC = weight/(heightCorr*heightCorr)
-    return java.text.NumberFormat.getNumberInstance().format(IMC)
+    val imcCalc = weight/(heightCorr*heightCorr)
+    return java.text.NumberFormat.getNumberInstance().format(imcCalc)
 
 }
 
