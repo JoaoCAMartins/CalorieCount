@@ -88,7 +88,7 @@ fun IMCCountLayout() {
     ) {
         Text(
             text = stringResource(R.string.imc_calculator),
-            style = MaterialTheme.typography.displayLarge,
+            style = MaterialTheme.typography.displayMedium,
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
