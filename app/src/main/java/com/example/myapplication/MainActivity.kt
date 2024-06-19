@@ -10,12 +10,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -32,8 +37,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.example.myapplication.ui.theme.IMCCountTheme
 
 class MainActivity : ComponentActivity() {
@@ -60,10 +67,16 @@ fun IMCCountLayout() {
     var weightInput by remember {
         mutableStateOf("")
     }
+    var showDialog by remember { mutableStateOf(false) }
+
     val height = heightInput.toDoubleOrNull() ?: 0.0
     val weight = weightInput.toDoubleOrNull() ?: 0.0
     val imc = calcIMC(height,weight)
     val imcInfo = imcInformation(imc)
+
+    if (showDialog) {
+        MinimalDialog(onDismissRequest = { showDialog = false },imcInfo)
+    }
     Column(
         modifier = Modifier
             .statusBarsPadding()
@@ -75,6 +88,7 @@ fun IMCCountLayout() {
     ) {
         Text(
             text = stringResource(R.string.imc_calculator),
+            style = MaterialTheme.typography.displayLarge,
             modifier = Modifier
                 .padding(bottom = 16.dp, top = 40.dp)
                 .align(alignment = Alignment.Start)
@@ -94,6 +108,7 @@ fun IMCCountLayout() {
                 .padding(bottom = 32.dp)
                 .fillMaxWidth(),
         )
+
         EditNumberField(
             label =R.string.Weight,
             leadingIcon = R.drawable.weight,
@@ -108,19 +123,9 @@ fun IMCCountLayout() {
                 .fillMaxWidth(),
         )
 
-        Text(
-            text = stringResource(R.string.imc),
-            style = MaterialTheme.typography.displaySmall
+        FloatingButton(
+            onClick = { showDialog = true },
         )
-        Text(
-            text = "$imc Kg/m^2",
-            style = MaterialTheme.typography.displaySmall
-        )
-        Text(
-            text = imcInfo,
-            style = MaterialTheme.typography.displaySmall
-        )
-
 
     }
 }
@@ -143,10 +148,8 @@ fun calcIMC(height: Double = 0.0, weight: Double = 0.0): String {
 
 }
 
-
-
-
 @Composable
+
 fun EditNumberField(
     @StringRes label: Int,
     @DrawableRes leadingIcon: Int,
@@ -166,7 +169,39 @@ fun EditNumberField(
     )
 }
 
+@Composable
+fun FloatingButton(onClick: () -> Unit) {
+        ExtendedFloatingActionButton(
+            onClick = { onClick() },
+            icon = { Icon(painter = painterResource(id = R.drawable.calculator), "Calculate") },
+            text = { Text(text = "Calculate") },
+        )
 
+}
+
+
+@Composable
+fun MinimalDialog(onDismissRequest: () -> Unit, imcInfo: String) {
+    Dialog(onDismissRequest = { onDismissRequest() }) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .padding(16.dp),
+            shape = RoundedCornerShape(16.dp),
+        ) {
+            Text(
+                //text = stringResource(R.string.remainder_result_text_1, leftover, R.string.remainder_result_text_2),
+                text = imcInfo,
+                style = MaterialTheme.typography.bodyMedium,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentSize(Alignment.Center),
+                textAlign = TextAlign.Center,
+            )
+        }
+    }
+}
 
 @Preview(showBackground = true)
 @Composable
