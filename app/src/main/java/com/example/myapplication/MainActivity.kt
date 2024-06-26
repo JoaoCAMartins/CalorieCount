@@ -100,7 +100,7 @@ fun IMCCountLayout() {
             leadingIcon = R.drawable.height,
             keyboardOptions = KeyboardOptions.Default.copy(
                 keyboardType = KeyboardType.Number,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Next
             ),
             value = heightInput,
             onValueChanged = { heightInput = it},
